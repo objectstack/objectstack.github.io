@@ -25,6 +25,7 @@ Replace `your-file-name` with the path to your specific file.
 ## Example Usage
 
 - **Markdown Image Embedding**:
+
 <img width="688" alt="CleanShot 2024-09-02 at 21 07 06" src="https://github.com/user-attachments/assets/c28b51e8-ecba-4c5f-98dc-e216e10c5d3a">
 
 - **Direct File Sharing: Share the link directly**:
