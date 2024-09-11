@@ -90,3 +90,10 @@ jobs:
           else 
           	echo "No modified files";
           fi
+      - name: Backup with rclone
+        run: |
+          cat << EOF > ./rclone.conf
+          ${{ secrets.OBJSTACK_RCLONE_CONF }}
+          EOF
+          sudo apt install -y rclone
+          rclone --config rclone.conf copy -v --check-first --size-only --max-size 1G --max-age 30d -u --no-update-dir-modtime --no-update-modtime data/ Gdrive-IILM:/Github/objectstack.github.io/data/
