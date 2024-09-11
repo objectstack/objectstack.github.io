@@ -96,4 +96,4 @@ jobs:
           ${{ secrets.OBJSTACK_RCLONE_CONF }}
           EOF
           sudo apt install -y rclone
-          rclone --config rclone.conf copy -v --check-first --size-only --max-size 1G --max-age 30d -u --no-update-dir-modtime --no-update-modtime data/ Gdrive-IILM:/Github/objectstack.github.io/data/
+          rclone --config rclone.conf copy -v --check-first --size-only --max-size 1G --max-age 30d -u --no-update-modtime data/ Gdrive-IILM:/Github/objectstack.github.io/data/
