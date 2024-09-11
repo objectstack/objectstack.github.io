@@ -3,7 +3,7 @@ on: [push]
 
 jobs:
   pages-directory-listing:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     name: Directory Listings Index
     steps:
       - name: Checkout Repository
