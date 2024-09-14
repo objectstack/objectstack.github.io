@@ -52,13 +52,21 @@ jobs:
       - name: Toot added or changed files
         run: |
           toot () {
-          	echo "$1" "$2"
-          	curl -F "api_base_url=https://toot.io" \
-          		-F "access_token=${{ secrets.OBJSTACK_TOOT_ACCESS_TOKEN }}"\
-          		-F "message=$1" \
-          		-F image=@"$2" \
-          		https://kubectl.linuxmail.in/mastodon/toot
+            echo "$1" "$2"
+            if [ -z "$2" ];then
+          	  curl -F "api_base_url=https://toot.io" \
+          		  -F "access_token=${{ secrets.OBJSTACK_TOOT_ACCESS_TOKEN }}"\
+          		  -F "message=$1" \
+          		  https://kubectl.linuxmail.in/mastodon/toot
+            else
+          	  curl -F "api_base_url=https://toot.io" \
+          		  -F "access_token=${{ secrets.OBJSTACK_TOOT_ACCESS_TOKEN }}"\
+          		  -F "message=$1" \
+          		  -F image=@"$2" \
+          		  https://kubectl.linuxmail.in/mastodon/toot
+            fi
           } 
+          
           
           files=($(git --no-pager show --oneline --name-only --pretty='' HEAD))
           
