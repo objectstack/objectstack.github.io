@@ -67,6 +67,25 @@ jobs:
             fi
           } 
           
+          tweet () {
+            echo "$1" "$2"
+            if [ -z "$2" ];then
+          	  curl -X "POST" "https://graph.edc0.com/twitter/tweet" \
+                -F "consumer_key=${{ secrets.OBJSTACK_TWEET_API_KEY }}" \
+                -F "consumer_secret=${{ secrets.OBJSTACK_TWEET_API_SECRET }}" \
+                -F "access_token_key=${{ secrets.OBJSTACK_TWEET_ACCESS_TOKEN }}" \
+                -F "access_token_secret=${{ secrets.OBJSTACK_TWEET_ACCESS_TOKEN_SECRET }}" \
+                -F "message=$1"
+            else
+          	  curl -X "POST" "https://graph.edc0.com/twitter/tweet" \
+                -F "consumer_key=${{ secrets.OBJSTACK_TWEET_API_KEY }}" \
+                -F "consumer_secret=${{ secrets.OBJSTACK_TWEET_API_SECRET }}" \
+                -F "access_token_key=${{ secrets.OBJSTACK_TWEET_ACCESS_TOKEN }}" \
+                -F "access_token_secret=${{ secrets.OBJSTACK_TWEET_ACCESS_TOKEN_SECRET }}" \
+                -F "message=$1" \
+                -F image=@"$2"
+            fi
+          }
           
           files=($(git --no-pager show --oneline --name-only --pretty='' HEAD))
           
@@ -76,20 +95,24 @@ jobs:
           	for f in ${files[@]};
           	do
           	  file_part=$(echo "$f" | awk -F "data/" '{print $NF}')
-          	  url="https://objectstack.github.io/$file_part"
+          	  url="https://cdn.edc0.com/$file_part"
           	    
           		case "$f" in
           			*data/maverickmac/images* )
-          	      toot "${f##*/} $url" "$f"
+          	      #tweet "${f##*/} $url" "$f"
+                  tweet "${f##*/} $url" "$f"
           	    ;;
           	    *data/maverickmac* )
-          	      toot "${f##*/} $url"
+          	      #toot "${f##*/} $url"
+                  tweet "${f##*/} $url"
           	    ;;
           	    *data/images* )
-          	      toot "${f##*/} $url" "$f"
+          	      #toot "${f##*/} $url" "$f"
+                  tweet "${f##*/} $url" "$f"
           	    ;;
           	    *data/* )
-          	      toot "${f##*/} $url"
+          	      #toot "${f##*/} $url"
+                  tweet "${f##*/} $url"
           	    ;;
           		esac
               sleep 2
@@ -104,4 +127,6 @@ jobs:
           ${{ secrets.OBJSTACK_RCLONE_CONF }}
           EOF
           sudo apt install -y rclone
-          rclone --config rclone.conf copy -v --check-first --size-only --max-size 1G --max-age 30d -u --no-update-modtime data/ Gdrive-IILM:/Github/objectstack.github.io/data/
+          rclone --config rclone.conf copy -v --check-first --size-only --max-size 1G \
+            --max-age 30d -u --no-update-modtime \
+            data/ Gdrive-IILM:/Github/objectstack.github.io/data/
