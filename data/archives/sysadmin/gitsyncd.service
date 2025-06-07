@@ -1,0 +1,24 @@
+[Unit]
+Description=Run gitsyncd script for sysadmin
+After=network.target
+
+[Service]
+Type=oneshot
+# Check and set Git username if not set or different
+ExecStartPre=/bin/bash -c 'current_name=$(git config --global user.name || true); \
+							if [ "$current_name" != "Khurshid Alam" ]; \
+							then git config --global user.name "Khurshid Alam"; fi'
+
+# Check and set Git email if not set or different
+ExecStartPre=/bin/bash -c 'current_email=$(git config --global user.email || true); \
+							if [ "$current_email" != "1333217+khurshid-alam@users.noreply.github.com" ]; \
+							then git config --global user.email "1333217+khurshid-alam@users.noreply.github.com"; fi'
+
+
+ExecStart=/usr/local/bin/gitsyncd -n /home/sysadmin
+WorkingDirectory=/home/sysadmin
+RemainAfterExit=no
+TimeoutSec=0
+
+[Install]
+WantedBy=default.target

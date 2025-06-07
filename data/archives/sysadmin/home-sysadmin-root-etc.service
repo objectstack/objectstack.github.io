@@ -1,0 +1,14 @@
+[Unit]
+Description=Bindfs mount of /etc to /home/sysadmin/root/etc (read-only)
+After=network.target
+#Requires=bindfs.target
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/bindfs --no-allow-other -r /etc /home/sysadmin/root/etc
+ExecStop=/bin/fusermount -u /home/sysadmin/root/etc
+Restart=no
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Run gitsyncd.service daily at 2:15 AM
+
+[Timer]
+OnCalendar=*-*-* 02:15:00
+Persistent=true
+Unit=gitsyncd.service
+
+[Install]
+WantedBy=timers.target
