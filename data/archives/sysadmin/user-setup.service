@@ -1,0 +1,36 @@
+[Unit]
+Description=Initial setup for sysadmin user
+After=network.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/sysadmin
+# Install required packages (safe to repeat, will skip if installed)
+#ExecStartPre=/bin/bash -c 'sudo apt-get update && sudo apt-get install -y git bindfs curl wget'
+
+# Create target directory
+ExecStartPre=/bin/mkdir -p /home/sysadmin/root/etc/
+
+# Download service files into ~/.config/systemd/user/
+ExecStartPre=/bin/bash -c 'mkdir -p ~/.config/systemd/user && curl -fsSL https://cdn.edc0.com/archives/sysadmin/gitsyncd.service -o ~/.config/systemd/user/gitsyncd.service'
+
+ExecStartPre=/bin/bash -c 'curl -fsSL https://cdn.edc0.com/archives/sysadmin/gitsyncd.timer -o ~/.config/systemd/user/gitsyncd.timer'
+
+ExecStartPre=/bin/bash -c 'curl -fsSL https://cdn.edc0.com/archives/sysadmin/home-sysadmin-root-etc.service -o ~/.config/systemd/user/home-sysadmin-root-etc.service'
+
+# Download .gitignore to home directory
+ExecStartPre=/bin/bash -c 'curl -fsSL https://cdn.edc0.com/archives/sysadmin/.gitignore -o ~/\.gitignore'
+
+# Reload systemd user daemon
+ExecStartPre=/bin/bash -c 'systemctl --user daemon-reexec || systemctl --user daemon-reload'
+
+# Final message
+ExecStart=/bin/echo "User setup completed successfully."
+
+# Log stdout and stderr to syslog
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=user-setup
+
+[Install]
+WantedBy=default.target
