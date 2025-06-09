@@ -13,6 +13,10 @@ ExecStartPre=/bin/bash -c 'current_name=$(git config --global user.name || true)
 ExecStartPre=/bin/bash -c 'current_email=$(git config --global user.email || true); \
 							if [ "$current_email" != "1333217+khurshid-alam@users.noreply.github.com" ]; \
 							then git config --global user.email "1333217+khurshid-alam@users.noreply.github.com"; fi'
+							
+
+# Set branch.master.sync to true
+ExecStartPre=/usr/bin/git config --bool branch.master.sync true
 
 
 ExecStart=/usr/local/bin/gitsyncd -n /home/sysadmin
