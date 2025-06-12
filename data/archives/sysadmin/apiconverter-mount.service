@@ -1,0 +1,17 @@
+[Unit]
+Description=Bindfs mount of /var/www/APIconverter/ (read-only)
+After=network.target
+#Requires=bindfs.target
+
+[Service]
+Type=forking
+
+ExecStartPre=/bin/bash -c 'mkdir -p /home/sysadmin/root/var/www/APIconverter'
+
+ExecStart=/usr/bin/bindfs --no-allow-other -r /var/www/APIconverter/ /home/sysadmin/root/var/www/APIconverter
+ExecStop=/bin/fusermount -u /home/sysadmin/root/var/www/APIconverter
+Restart=no
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target
