@@ -238,6 +238,8 @@ root/etc/default/elasticsearch
 !/root/etc/logcheck
 !/root/etc/logrotate.d
 
+/root/etc/default/logstash
+
 #!/root/etc/lvm
 
 !/root/etc/mdadm
@@ -406,15 +408,40 @@ root/etc/default/elasticsearch
 !/root/etc/timezone
 !/root/etc/ucf.conf
 !/root/etc/usb_modeswitch.conf
+!/root/etc/vsftpd.conf
 !/root/etc/wgetrc
 !/root/etc/whoopsie
 !/root/etc/xattr.conf
+
+
+
+#root-var-www-APIconverter files=====================
+!/root/var/www/APIconverter
+/root/var/www/APIconverter/Temp
+/root/var/www/APIconverter/app_data
+/root/var/www/APIconverter/cs
+/root/var/www/APIconverter/de
+/root/var/www/APIconverter/es
+/root/var/www/APIconverter/fr
+/root/var/www/APIconverter/it
+/root/var/www/APIconverter/ja
+/root/var/www/APIconverter/ko
+/root/var/www/APIconverter/logs
+/root/var/www/APIconverter/pl
+/root/var/www/APIconverter/pt-BR
+/root/var/www/APIconverter/ru
+/root/var/www/APIconverter/tr
+/root/var/www/APIconverter/zh-Hans
+/root/var/www/APIconverter/zh-Hant
+
+
 
 #\"/root/etc/systemd/system/snapd.mounts.target.wants/snap-gnome\\x2d42\\x2d2204-202.mount\"
 #\"/root/etc/systemd/system/multi-user.target.wants/snap-gnome\\x2d42\\x2d2204-202.mount\"
 #/root/etc/systemd/system/snapd.mounts.target.wants/snap\x2dgnome\x5cx2d42\x5cx2d2204\x2d202.mount
 *snap-gnome*
 *snap\x2dgnome*
+
 
 
 
